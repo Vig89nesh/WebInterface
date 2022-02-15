@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Administrator</title>
+</head>
+<body>
+<h1>Administrator Interface</h1>
+    <div class="row">
+        {% if current_user.username == 'groupadmin' %}
+            <p>Supporting Features:<a href = "{{url_for('addUsers')}}">AddUsers</a>
+            <a href = "{{url_for('DeleteUsers')}}">DeleteUsers</a></p>
+        {% else %}
+        <p>Not autorized to access this page</p>
+        {% endif %}
+    </div>
+</body>
+</html>
