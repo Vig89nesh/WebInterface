@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Delete Group</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true)%}
+    {% if messages %}
+        <!--ul class=flshes-->
+        {% for cateogry, message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% if grp_exists %}
+        <p>Select group from below list:</p>
+      <form method = "POST" action = "">
+          {{form.hidden_tag()}}
+          {{form.groupname}}<br><br>
+          {{form.submit}}
+      </form>
+    {% else %}
+    <p style="color:red">User Didn't owned any group!!!</p>
+    {% endif %}
+</body>
+</html>

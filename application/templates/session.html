@@ -3,15 +3,37 @@
   <html lang="en">
   <head>
     <title>Multi Web Chat</title>
+    <style>
+      .message_holder {
+      background-color: white;
+      width: 400px;
+      height: 300px;
+      border: 4px dotted blue;
+      padding: 30px;
+      margin: auto;
+      background-position:center;
+      }
+    </style>
   </head>
   <body>
 
-    <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-    <div class="message_holder"></div>
+    <P style = "margin-left:450px;">Chat Room:<b>{{group}}</b></p>
+    <div id="logoff" style = "margin-left:1200px;">
+      <a href="{{url_for('manage_users')}}" onclick = "left()">Leave Chat</a>
+    <a href="{{url_for('logout')}}" onclick = "left()">Logout</a>
+    </div>
+
+    <div class="message_holder">
+      <h3 style='color: #ccc;font-size: 15px;top:400px;'>{{current_user.username}} entered into chat</h3>
+      {% if left_chat %}
+      <h3 style='color: #ccc;font-size: 15px;top:400px;'>{{current_user.username}} left the chat</h3>
+      {% endif %}
+    </div>
 
     <form action="" method="POST">
-      <input type="text" class="message" placeholder="Type your Message here"/>
-      <input type="submit"/>
+      <br>
+      <input style="margin-left:440px" size ="50" type="text" class="message" placeholder="Type a message here"/>
+      <input type="submit", value="send"/>
     </form>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -20,7 +42,10 @@
     <script type="text/javascript">
       var socket = io.connect('http://' + document.domain + ':' + location.port);
       let user_name = '{{user}}';
-
+      var left_chat = false;
+      function left() {
+      $( 'div.message_holder' ).append( '<div><b style="color: #000">'+current_user.username + ':' +'</b> '+'left the chat'+'</div>' )
+      }
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
           data: 'User Connected'
@@ -39,7 +64,8 @@
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()
-          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name + ':' +'</b> '+msg.message+'</div>' )
+
         }
       })
     </script>
